@@ -22,13 +22,15 @@ pipeline {
       
         stage('Deploying the Application to the K8s Cluster') {
           steps {
-            sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/drupal-secret.yaml"
-            sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/persistentvolumeclaim.yaml"
-            sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/drupal.yaml"
-            sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/mysql-drupal.yaml"
-
-    }
-  }
+            //sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/drupal-secret.yaml"
+            //sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/persistentvolumeclaim.yaml"
+            //sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/drupal.yaml"
+            //sh "sudo kubectl --kubeconfig=${KUBECONFIG} apply -f /var/lib/jenkins/workspace/jenkins-kubernetes/mysql-drupal.yaml"
+              script {
+                  kubernetesDeploy(configs: "drupal.yaml", kubeconfigId: "kubeconfig")
+              }
+      }
+     }
     }
     post {
        always {
